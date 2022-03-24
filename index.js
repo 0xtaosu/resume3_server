@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 // Import the axios library, to make HTTP requests
 const axios = require('axios');
+const cors = require('cors')
 require('dotenv').config();
 
 const app = express();
