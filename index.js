@@ -35,7 +35,7 @@ app.get('/authenticate/github', (req, res) => {
     const access_token = response.data.access_token;
     console.log(response.data);
     // redirect the user to the home page, along with the access token
-    res.redirect(`/profile.html?access_token=${access_token}`);
+    res.redirect(callbackURI+`?access_token=${access_token}`);
   })
     .catch(function (error) {
       console.log(error);
