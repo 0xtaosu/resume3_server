@@ -11,13 +11,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(cors({ origin: '*' }));
 
 const port = 3000;
 // This is the client ID and client secret that you obtained
 // while registering the application
 const clientID = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-const callbackURI=process.env.CALLBACK_URL;
+const callbackURI = process.env.CALLBACK_URL;
 
 
 /**
@@ -35,7 +36,7 @@ app.get('/authenticate/github', (req, res) => {
     const access_token = response.data.access_token;
     console.log(response.data);
     // redirect the user to the home page, along with the access token
-    res.redirect(callbackURI+`?access_token=${access_token}`);
+    res.redirect(callbackURI + `?access_token=${access_token}`);
   })
     .catch(function (error) {
       console.log(error);
@@ -85,19 +86,19 @@ app.get('/github', (req, res) => {
   axios(config)
     .then(function (response) {
       console.log(response);
-      const name= response.data.data.viewer.name;
-      const repositories=response.data.data.viewer.repositories.totalCount;
-      const following=response.data.data.viewer.following.totalCount;
-      const followers=response.data.data.viewer.followers.totalCount;
-      const contributions=response.data.data.viewer.contributionsCollection.contributionCalendar.totalContributions;
-      const result={
-        data:{
-          name:name,
-          repositories:repositories,
-          following:following,
-          followers:followers,
-          contributions:contributions,
-          score:repositories+following+followers+contributions
+      const name = response.data.data.viewer.name;
+      const repositories = response.data.data.viewer.repositories.totalCount;
+      const following = response.data.data.viewer.following.totalCount;
+      const followers = response.data.data.viewer.followers.totalCount;
+      const contributions = response.data.data.viewer.contributionsCollection.contributionCalendar.totalContributions;
+      const result = {
+        data: {
+          name: name,
+          repositories: repositories,
+          following: following,
+          followers: followers,
+          contributions: contributions,
+          score: repositories + following + followers + contributions
         }
       }
       console.log(result);
